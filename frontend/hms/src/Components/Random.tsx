@@ -1,6 +1,6 @@
 const Random = () => {
     return (
-        <div>Random</div>
+        <div className=''>Random</div>
     )
 }
 export default Random;
