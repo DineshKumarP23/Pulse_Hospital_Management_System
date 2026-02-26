@@ -1,7 +1,10 @@
 import { Button, PasswordInput, SegmentedControl, TextInput } from "@mantine/core";
 import { IconHeartbeat } from "@tabler/icons-react";
 import { useForm } from '@mantine/form';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { errorNotification, successNotification } from "../Utility/NotificationUtil";
+import { loginUser } from "../Service/UserService";
+import { useState } from "react";
 interface RegisterFormValues {
   type: string;
   email: string;
@@ -9,6 +12,8 @@ interface RegisterFormValues {
   confirmPassword: string;
 }
 const LoginPage = () => {
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const form = useForm<RegisterFormValues>({
     initialValues: {
         type: "PATIENT",
@@ -21,7 +26,11 @@ const LoginPage = () => {
             /^\S+@\S+$/.test(value) ? null : 'Invalid email',
 
         password: (value) =>
-            !value ? "Password is required" : null,
+            !value
+            ? "Password is required"
+            : /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/.test(value)
+            ? null
+            : "Password must be 8-15 characters and include uppercase, lowercase, number, and special character",
 
         confirmPassword: (value, values) =>
             value !== values.password ? "Passwords don't match" : null,
@@ -31,7 +40,11 @@ const LoginPage = () => {
 
     
     const handleSubmit = (values: typeof form.values) => {
-        console.log(values);
+        loginUser(values).then((_data)=>{successNotification("Logged in Successfully.")
+            navigate("/dashboard");
+        }).catch((error)=>{
+            errorNotification(error?.response?.data?.errorMessage);
+        }).finally(()=>setLoading(false))
     };
 
     return (
@@ -47,7 +60,7 @@ const LoginPage = () => {
                     <TextInput {...form.getInputProps('email')} className="transition duration-300" variant="unstyled" size="md" radius="md" placeholder="Email"/>
                     <PasswordInput {...form.getInputProps('password')} className="transition duration-300" variant="unstyled" size="md" radius="md" placeholder="Password"/>
                     <PasswordInput {...form.getInputProps('confirmPassword')} className="transition duration-300" variant="unstyled" size="md" radius="md" placeholder="Confirm Password"/>
-                    <Button radius="md" size="md" type='submit' color='primary'>Login</Button>
+                    <Button loading={loading} radius="md" size="md" type='submit' color='primary'>Login</Button>
                 <div className="text-neutral-100 text-sm self-center">Don't have an account <Link to="/register" className="hover:underline">Register</Link></div>
                 </form>
             </div>

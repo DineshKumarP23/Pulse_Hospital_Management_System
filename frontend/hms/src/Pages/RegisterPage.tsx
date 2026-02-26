@@ -1,8 +1,13 @@
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import { IconHeartbeat } from "@tabler/icons-react";
 import { useForm } from '@mantine/form';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../Service/UserService";
+import { errorNotification, successNotification } from "../Utility/NotificationUtil";
+import { useState } from "react";
 const RegisterPage = () => {
+    const [loading, setLoading]=useState(false);
+    const navigate = useNavigate();
     const form = useForm({
             initialValues: {
             email: '',
@@ -15,7 +20,13 @@ const RegisterPage = () => {
     });
     
     const handleSubmit = (values: typeof form.values) => {
-        console.log(values);
+        setLoading(true);
+        registerUser(values).then((_data)=>{
+            successNotification("Registered Successfully.")
+            navigate('/login');
+        }).catch((error)=>{
+            errorNotification(error.response.data.errorMessage)
+        }).finally(()=>setLoading(false))
     };
 
     return (
@@ -29,7 +40,7 @@ const RegisterPage = () => {
                     <div className='self-center font-medium font-heading text-white text-xl'>Login</div>
                     <TextInput {...form.getInputProps('email')} className="transition duration-300" variant="unstyled" size="md" radius="md" placeholder="Email"/>
                     <PasswordInput {...form.getInputProps('password')} className="transition duration-300" variant="unstyled" size="md" radius="md" placeholder="Password"/>
-                    <Button radius="md" size="md" type='submit' color='primary'>Login</Button>
+                    <Button loading={loading} radius="md" size="md" type='submit' color='primary'>Login</Button>
                 <div className="text-neutral-100 text-sm self-center">Have an account <Link to="/login" className="hover:underline">Login</Link></div>
                 </form>
             </div>
