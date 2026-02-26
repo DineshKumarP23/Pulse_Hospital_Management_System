@@ -2,6 +2,9 @@ package com.hms.user.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authorization.AuthorizationDecision;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,8 +20,25 @@ public class SecurityConfig {
     }
 
     @Bean
+    AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception {
+        return builder.getAuthenticationManager();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((requests)->requests.requestMatchers("/public/**").permitAll().anyRequest().authenticated()).csrf(csrf -> csrf.disable());
+//        http.authorizeHttpRequests((requests)->requests.requestMatchers("/public/**").permitAll().anyRequest().authenticated()).csrf(csrf -> csrf.disable());
+//        return http.build();
+        http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().access((authentication, context) -> {
+                            return new AuthorizationDecision(
+                                    "SECRET".equals(
+                                            context.getRequest().getHeader("X-SECRET-KEY")
+                                    )
+                            );
+                        })
+                );
         return http.build();
     }
 }
