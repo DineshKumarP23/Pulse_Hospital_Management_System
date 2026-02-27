@@ -10,8 +10,11 @@ const RegisterPage = () => {
     const navigate = useNavigate();
     const form = useForm({
             initialValues: {
-            email: '',
-            password: '',
+                name: '',
+                role: "PATIENT",
+                email: '',
+                password: '',
+                confirmPassword: "",
         },
         validate: {
             email: (value:string) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
