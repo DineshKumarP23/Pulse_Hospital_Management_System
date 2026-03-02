@@ -22,8 +22,9 @@ public class UserDTO {
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\W_]).+$", message = "Password should contain atleast 1 Uppercase, 1 Lowercase, 1 Digit and 1 Special Character")
     private String password;
     private Roles role;
+    private Long profileId;
 
     public User toEntity() {
-        return new User(this.id, this.name, this.email, this.password, this.role);
+        return new User(this.id, this.name, this.email, this.password, this.role, this.profileId);
     }
 }
