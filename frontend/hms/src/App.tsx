@@ -1,6 +1,7 @@
 import './App.css';
 import '@mantine/core/styles.css';
-import '@mantine/notifications/styles.css'
+import '@mantine/notifications/styles.css';
+import '@mantine/dates/styles.css';
 import { Button, createTheme, MantineProvider } from '@mantine/core';
 import AppRoutes from './Routes/AppRoutes';
 import { Notifications } from '@mantine/notifications';

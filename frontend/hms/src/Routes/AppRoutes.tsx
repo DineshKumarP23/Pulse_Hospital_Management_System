@@ -1,12 +1,16 @@
 import Header from "../Components/Header/Header";
 import Random from "../Components/Random";
-import Sidebar from "../Components/Sidebar/Sidebar";
+import Sidebar from "../Components/Doctor/Sidebar/Sidebar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AdminDashboard from "../Layout/AdminDashboard";
 import LoginPage from "../Pages/LoginPage";
 import RegisterPage from "../Pages/RegisterPage";
 import PublicRoute from "./PublicRoute";
 import ProtectedRoute from "./ProtectedRoute";
+import PatientDashboard from "../Layout/PatientDashboard";
+import PatientProfilePage from "../Pages/Patient/PatientProfilePage";
+import DoctorDashboard from "../Layout/DoctorDashboard";
+import DoctorProfilePage from "../Pages/Doctor/DoctorProfilePage";
 const AppRoutes = () => {
     return (
         <BrowserRouter>
@@ -18,6 +22,18 @@ const AppRoutes = () => {
                         <Route path="/pharmacy" element={<Random />} />
                         <Route path="/patients" element={<Random />} />
                         <Route path="/doctors" element={<Random />} />
+                    </Route>
+                    <Route path='/doctor' element={<ProtectedRoute><DoctorDashboard/></ProtectedRoute>}>
+                        <Route path="dashboard" element={<Random />} />
+                        <Route path="profile" element={<DoctorProfilePage />} />
+                        <Route path="pharmacy" element={<Random />} />
+                        <Route path="patients" element={<Random />} />
+                        <Route path="doctors" element={<Random />} />
+                    </Route>
+                    <Route path='/patient' element={<ProtectedRoute><PatientDashboard/></ProtectedRoute>}>
+                        <Route path="dashboard" element={<Random />} />
+                        <Route path="profile" element={<PatientProfilePage />} />
+                        <Route path="appointments" element={<Random />} />
                     </Route>
                 </Routes>
         </BrowserRouter>

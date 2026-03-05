@@ -45,11 +45,12 @@ const LoginPage = () => {
 
     
     const handleSubmit = (values: typeof form.values) => {
+        setLoading(true);
         loginUser(values).then((_data)=>{
             successNotification("Logged in Successfully.");
             dispatch(setJwt(_data))
             dispatch(setUser(jwtDecode(_data)));
-//            navigate("/dashboard");
+
         }).catch((error)=>{
             errorNotification(error?.response?.data?.errorMessage);
         }).finally(()=>setLoading(false))
