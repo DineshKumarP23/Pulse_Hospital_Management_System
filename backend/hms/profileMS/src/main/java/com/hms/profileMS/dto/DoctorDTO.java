@@ -1,7 +1,6 @@
 package com.hms.profileMS.dto;
 
 import com.hms.profileMS.entity.Doctor;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

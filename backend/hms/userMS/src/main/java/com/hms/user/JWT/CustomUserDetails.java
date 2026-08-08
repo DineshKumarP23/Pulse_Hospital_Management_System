@@ -23,8 +23,9 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private Roles role;
     private String name;
+    private Long profileId;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(Long id, @NotBlank(message = "Email is mandatory") @Email(message = "Email should be valid") String email, @NotBlank(message = "Password is mandatory") @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\W_]).+$", message = "Password should contain atleast 1 Uppercase, 1 Lowercase, 1 Digit and 1 Special Character") String password, Roles role, @NotBlank(message = "Name is mandatory") String name, Object o) {
+    public CustomUserDetails(Long id, @NotBlank(message = "Email is mandatory") @Email(message = "Email should be valid") String email, @NotBlank(message = "Password is mandatory") @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\W_]).+$", message = "Password should contain atleast 1 Uppercase, 1 Lowercase, 1 Digit and 1 Special Character") String password, Roles role, @NotBlank(message = "Name is mandatory") String name, Long profileId, Object o) {
     }
 }
