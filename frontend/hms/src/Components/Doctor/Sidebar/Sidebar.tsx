@@ -29,7 +29,7 @@ const Sidebar = () => {
             
             <div className='flex flex-col gap-1 items-center'>
                 <div className='p-1 bg-white rounded-full shadow-lg'>
-                    <Avatar variant='filled' src="avatar.png" size="xl" alt="It's me" />
+                    <Avatar variant='filled' src="/avatar.png" size="xl" alt="It's me" />
                 </div>
                 <span className='font-medium text-light'>{user.name}</span>
                 <Text c="dimmed" className='text-light' size='xs'>{user.role}</Text>

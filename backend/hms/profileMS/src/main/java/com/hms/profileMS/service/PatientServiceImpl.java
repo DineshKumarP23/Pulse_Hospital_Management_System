@@ -1,6 +1,7 @@
 package com.hms.profileMS.service;
 
 import com.hms.profileMS.dto.PatientDTO;
+import com.hms.profileMS.entity.Patient;
 import com.hms.profileMS.exception.HmsException;
 import com.hms.profileMS.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,11 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PatientDTO getPatientById(Long id) throws HmsException {
         return patientRepository.findById(id).orElseThrow(()->new HmsException("PATIENT_NOT_FOUND")).toDTO();
+    }
+
+    @Override
+    public PatientDTO updatePatient(PatientDTO patientDTO) throws HmsException {
+        patientRepository.findById(patientDTO.getId()).orElseThrow(()->new HmsException("PATIENT_NOT_FOUND"));
+        return patientRepository.save(patientDTO.toEntity()).toDTO();
     }
 }
