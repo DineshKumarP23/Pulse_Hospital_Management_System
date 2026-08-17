@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@mantine/dropzone": "^9.5.1"
+  }
+}
