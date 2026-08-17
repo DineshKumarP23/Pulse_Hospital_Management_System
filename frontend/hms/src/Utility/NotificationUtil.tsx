@@ -1,28 +1,27 @@
-import { notifications } from "@mantine/notifications";
-import { IconCheck, IconX } from "@tabler/icons-react";
+import { notifications } from "@mantine/notifications"
+import { IconCheck, IconX } from "@tabler/icons-react"
 
-const successNotification = (message:string) => {
+const successNotification=(message:string)=>{
     notifications.show({
         title: "Success",
         message: message,
         color: 'teal',
         icon: <IconCheck />,
         withCloseButton: true,
-        withBorder: true,
-        className: "!border-green-500"
+withBorder:true,
+className:"!border-green-500"
     })
 }
-
-const errorNotification = (message:string) => {
+const errorNotification=(message:string)=>{
     notifications.show({
-        title: "Failed",
+        title: "Error",
         message: message,
         color: 'red',
         icon: <IconX />,
         withCloseButton: true,
-        withBorder: true,
-        className: "!border-red-500"
+withBorder:true,
+className:"!border-red-500"
     })
 }
 
-export {successNotification, errorNotification}
+export {successNotification,errorNotification}

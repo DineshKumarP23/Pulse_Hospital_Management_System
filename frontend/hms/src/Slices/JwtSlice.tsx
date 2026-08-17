@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
-const jwtSlice = createSlice({
+const jwtSlice= createSlice({
     name: 'jwt',
-    initialState: localStorage.getItem('token') || '',
+    initialState:localStorage.getItem('token') || '',
     reducers:{
         setJwt:(state, action)=>{
             localStorage.setItem('token', action.payload);
@@ -16,5 +16,6 @@ const jwtSlice = createSlice({
         }
     }
 })
-export const {setJwt, removeJwt} = jwtSlice.actions;
+
+export const {setJwt, removeJwt}=jwtSlice.actions;
 export default jwtSlice.reducer;

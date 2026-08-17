@@ -1,263 +1,153 @@
-import { Avatar, Button, Divider, Modal, NumberInput, Select, Table, TagsInput, TextInput } from "@mantine/core";
-import { DateInput } from "@mantine/dates";
+import { Avatar, Button, Divider, Modal, NumberInput, Select, Table, TextInput } from "@mantine/core";
+import { DateInput } from '@mantine/dates';
 import { IconEdit } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { doctorSpecializations, doctorDepartments } from "../../../Data/DropdownData";
-import { useDisclosure } from "@mantine/hooks";
+import { doctorDepartments, doctorSpecializations } from "../../../Data/DropdownData";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { getDoctor, updateDoctor } from "../../../Service/DoctorProfileService";
 import { useForm } from "@mantine/form";
-import { errorNotification, successNotification } from "../../../Utility/NotificationUtil";
 import { formatDate } from "../../../Utility/DateUtility";
-const doctor = {
-  dob: "12-02-2000",
-  phone: "9876543210",
-  address: "Chennai",
-  licenseNo: "DL123456789",
-  specialization: "Cardiology",
-  departments: "Cardioogy",
-  totalExp: "5"
+import { errorNotification, successNotification } from "../../../Utility/NotificationUtil";
+const doctor: any = {
+    name: "Dr. John Doe",
+    email: "dr.john.doe@example.com",
+    dob: "1985-07-20",
+    phone: "+91 9123456789",
+    address: "456, Oak Avenue, New Delhi, India",
+    licenseNo: "DL12345XYZ",
+    specialization: "Cardiology",
+    department: "Cardiology",
+    totalExp: 10, // years of experience
+    profilePicture: "https://randomuser.me/api/portraits/men/75.jpg",
 };
-type ProfileFormValues = {
-  dob: Date | null;
-  phone: string;
-  address: string;
-  licenseNo: string;
-  specialization: string;
-  department: string;
-  totalExp: string;
-};
+
 const Profile = () => {
-    const user = useSelector((state:any) => state.user);
-    const [opened, { open, close}] = useDisclosure(false);
+    const user = useSelector((state: any) => state.user);
+    const [opened, { open, close }] = useDisclosure(false);
     const [editMode, setEdit] = useState(false);
+
     const [profile, setProfile] = useState<any>({});
     useEffect(() => {
-            getDoctor(user.profileId).then((data) => {
-                setProfile({...data});
-            }).catch((error) => {
-                console.log(error);
-            })
-        }, [])
-    const form = useForm<ProfileFormValues>({
-        initialValues: {
-            dob: null,
-            phone: '',
-            address: '',
-            licenseNo: '',
-            specialization: '',
-            department: '',
-            totalExp: '',
-        },
-        validate: {
-            dob: (value) => (!value ? 'Date of Birth is required' : null),
-            phone: (value) => (!value ? 'Phone Number is required' : null),
-            address: (value) => (!value ? 'Address is required' : null),
-            licenseNo: (value) => (!value ? 'License Number is required' : null),
-        },
-    });
+        getDoctor(user.profileId).then((data) => {
+            setProfile({ ...data });
+        }).catch((error) => {
+            console.log(error);
+        })
+    }, [])
+    type DoctorFormValues = {
+    dob: Date | null;
+    phone: number | string;
+    address: string;
+    licenseNo: string;
+    specialization: string;
+    department: string;
+    totalExp: number | string;
+};
+
+const form = useForm<DoctorFormValues>({
+    initialValues: {
+        dob: null,
+        phone: '',
+        address: '',
+        licenseNo: '',
+        specialization: '',
+        department: '',
+        totalExp: '',
+    },
+
+    validate: {
+        dob: (value) =>
+            !value ? 'Date of Birth is required' : undefined,
+
+        phone: (value) =>
+            !value ? 'Phone number is required' : undefined,
+
+        address: (value) =>
+            !value ? 'Address is required' : undefined,
+
+        licenseNo: (value) =>
+            !value ? 'License number is required' : undefined,
+    },
+});
     const handleEdit = () => {
-        form.setValues({...profile});
+        form.setValues({ ...profile, dob: profile.dob ? new Date(profile.dob) : undefined, });
         setEdit(true);
     }
-    const handleSubmit = (e: any) => { 
-        let values = form.getValues(); 
-        form.validate(); 
-        if (!form.isValid()) 
-            return; updateDoctor({ ...profile, ...values }) .then((data) => { 
-                successNotification("Profile updated successfully"); 
-                setProfile({ ...profile, ...values }); setEdit(false); 
-            }) .catch((error) => { errorNotification(error.response.data.errorMessage); }); };
+    const handleSubmit = (e: any) => {
+        let values = form.getValues();
+        form.validate();
+        if (!form.isValid()) return;
+        console.log(values);
+        updateDoctor({ ...profile, ...values, }).then((_data) => {
+            successNotification("Profile updated successfully");
+            setProfile({ ...profile, ...values });
+            setEdit(false);
+        }).catch((error) => {
+            console.log(error);
+            errorNotification(error.response.data.errorMessage);
+        })
+    }
+    const matches = useMediaQuery('(max-width: 768px)');
     return (
-        <div className="p-10">
-            <div className="flex justify-between items-center">
+        <div className="md:p-10 p-5">
+            <div className="flex lg:flex-row flex-col justify-between items-center">
                 <div className="flex gap-5 items-center">
                     <div className="flex flex-col items-center gap-3">
-                        <Avatar variant='filled' src="/avatar.png" size={150} alt="It's me" />
-                        {editMode && <Button size="sm" onClick={(open)=>setEdit(false)} variant="filled">Upload</Button>}
+
+                        <Avatar variant='filled' src="/avatar.png" size={matches ? 120 : 150} alt="it's me" />
+                        {editMode && <Button size="sm" onClick={open} variant="filled" >Upload</Button>}
                     </div>
                     <div className="flex flex-col gap-3">
-                        <div className="text-3xl font-medium text-neutral-900">{user.name}</div>
-                        <div className="text-xl text-neutral-700">{user.email}</div>
+                        <div className="md:text-3xl text-xl font-medium text-neutral-900">{user.name}</div>
+                        <div className="md:text-xl text-lg text-neutral-700">{user.email}</div>
                     </div>
                 </div>
-                {!editMode ? <Button size="lg" type="button" onClick={handleEdit} variant="filled" leftSection={<IconEdit />}>Edit</Button> : <Button onClick={handleSubmit} size="lg" type="submit" variant="filled">Submit</Button> }
+                {!editMode ? <Button type="button" size={matches ? "sm" : "lg"} onClick={handleEdit} variant="filled" leftSection={<IconEdit />}>Edit</Button> :
+                    <Button onClick={handleSubmit} size={matches ? "sm" : "lg"} type="submit" variant="filled" >Submit</Button>}
             </div>
             <Divider my="xl" />
-            {/* Personal Information */}
-      <div>
-        <div className="text-2xl font-medium mb-5 text-neutral-900">
-          Personal Information
-        </div>
-
-        <Table
-          striped
-          stripedColor="primary.1"
-          verticalSpacing="md"
-          withRowBorders={false}
-        >
-          <Table.Tbody className="[&>tr]:!mb-3 [&_td]:!w-1/2">
-            {/* Date of Birth */}
-            <Table.Tr>
-              <Table.Td className="font-semibold text-xl">
-                Date of Birth
-              </Table.Td>
-
-              {editMode ? (
-                <Table.Td className="text-xl">
-                  <DateInput
-                    {...form.getInputProps("dob")}
-                    placeholder="Date of Birth"
-                    valueFormat="DD/MM/YYYY"
-                    clearable
-                  />
-                </Table.Td>
-              ) : (
-                <Table.Td className="text-xl">
-                  {formatDate(profile?.dob)}
-                </Table.Td>
-              )}
-            </Table.Tr>
-
-            {/* Phone */}
-            <Table.Tr>
-              <Table.Td className="font-semibold text-xl">
-                Phone
-              </Table.Td>
-
-              {editMode ? (
-                <Table.Td className="text-xl">
-                  <TextInput
-                    {...form.getInputProps("phone")}
-                    maxLength={10}
-                    placeholder="Phone Number"
-                    inputMode="numeric"
-                  />
-                </Table.Td>
-              ) : (
-                <Table.Td className="text-xl">
-                  {profile?.phone ?? "-"}
-                </Table.Td>
-              )}
-            </Table.Tr>
-
-            {/* Address */}
-            <Table.Tr>
-              <Table.Td className="font-semibold text-xl">
-                Address
-              </Table.Td>
-
-              {editMode ? (
-                <Table.Td className="text-xl">
-                  <TextInput
-                    {...form.getInputProps("address")}
-                    placeholder="Address"
-                  />
-                </Table.Td>
-              ) : (
-                <Table.Td className="text-xl">
-                  {profile?.address ?? "-"}
-                </Table.Td>
-              )}
-            </Table.Tr>
-
-            {/* License Number */}
-            <Table.Tr>
-              <Table.Td className="font-semibold text-xl">
-                License No
-              </Table.Td>
-
-              {editMode ? (
-                <Table.Td className="text-xl">
-                  <TextInput
-                    {...form.getInputProps("licenseNo")}
-                    maxLength={12}
-                    placeholder="License Number"
-                  />
-                </Table.Td>
-              ) : (
-                <Table.Td className="text-xl">
-                  {profile?.licenseNo ?? "-"}
-                </Table.Td>
-              )}
-            </Table.Tr>
-
-            {/* Specialization */}
-            <Table.Tr>
-              <Table.Td className="font-semibold text-xl">
-                Specialization
-              </Table.Td>
-
-              {editMode ? (
-                <Table.Td className="text-xl">
-                  <Select
-                    {...form.getInputProps("specialization")}
-                    placeholder="Specialization"
-                    data={doctorSpecializations}
-                    searchable
-                    clearable
-                  />
-                </Table.Td>
-              ) : (
-                <Table.Td className="text-xl">
-                  {profile?.specialization ?? "-"}
-                </Table.Td>
-              )}
-            </Table.Tr>
-
-            {/* Department */}
-            <Table.Tr>
-              <Table.Td className="font-semibold text-xl">
-                Department
-              </Table.Td>
-
-              {editMode ? (
-                <Table.Td className="text-xl">
-                  <Select
-                    {...form.getInputProps("department")}
-                    placeholder="Department"
-                    data={doctorDepartments}
-                    searchable
-                    clearable
-                  />
-                </Table.Td>
-              ) : (
-                <Table.Td className="text-xl">
-                  {profile?.department ?? "-"}
-                </Table.Td>
-              )}
-            </Table.Tr>
-
-            {/* Total Experience */}
-            <Table.Tr>
-              <Table.Td className="font-semibold text-xl">
-                Total Experience
-              </Table.Td>
-
-              {editMode ? (
-                <Table.Td className="text-xl">
-                  <NumberInput
-                    {...form.getInputProps("totalExp")}
-                    max={50}
-                    min={0}
-                    placeholder="Total Experience"
-                    clampBehavior="strict"
-                    hideControls
-                  />
-                </Table.Td>
-              ) : (
-                <Table.Td className="text-xl">
-                  {profile?.totalExp != null
-                    ? `${profile.totalExp} years`
-                    : "-"}
-                                </Table.Td>
-                            )}
+            <div>
+                <div className="text-2xl font-medium mb-5 text-neutral-900">Personal Information</div>
+                <Table striped stripedColor="primary.1" verticalSpacing="md" withRowBorders={false}>
+                    <Table.Tbody className="[&>tr]:!mb-3 [&_td]:!w-1/2">
+                        <Table.Tr>
+                            <Table.Td className="md:font-semibold md:text-xl text-lg font-medium">Date of Birth</Table.Td>
+                            {editMode ? <Table.Td className="md:text-xl text-lg">    <DateInput {...form.getInputProps("dob")} placeholder="Date of birth"
+                            />  </Table.Td> : <Table.Td className="md:text-xl text-lg"> {formatDate(profile.dob) ?? '-'}</Table.Td>}
+                        </Table.Tr>
+                        <Table.Tr>
+                            <Table.Td className="md:font-semibold md:text-xl text-lg font-medium">Phone</Table.Td>
+                            {editMode ? <Table.Td className="md:text-xl text-lg">  <NumberInput {...form.getInputProps("phone")} maxLength={10} clampBehavior="strict" placeholder="Phone number" hideControls /></Table.Td> : <Table.Td className="md:text-xl text-lg"> {profile.phone ?? '-'}</Table.Td>}
+                        </Table.Tr>
+                        <Table.Tr>
+                            <Table.Td className="md:font-semibold md:text-xl text-lg font-medium">Address</Table.Td>
+                            {editMode ? <Table.Td className="md:text-xl text-lg">   <TextInput {...form.getInputProps("address")} placeholder="Address" /></Table.Td> : <Table.Td className="md:text-xl text-lg"> {profile.address ?? '-'}</Table.Td>}
+                        </Table.Tr>
+                        <Table.Tr>
+                            <Table.Td className="md:font-semibold md:text-xl text-lg font-medium">License No</Table.Td>
+                            {editMode ? <Table.Td className="md:text-xl text-lg"> <TextInput {...form.getInputProps("licenseNo")} placeholder="License number" /></Table.Td> : <Table.Td className="md:text-xl text-lg"> {profile.licenseNo ?? '-'}</Table.Td>}
+                        </Table.Tr>
+                        <Table.Tr>
+                            <Table.Td className="md:font-semibold md:text-xl text-lg font-medium">Specialization</Table.Td>
+                            {editMode ? <Table.Td className="md:text-xl text-lg">   <Select {...form.getInputProps("specialization")} placeholder="Specialization" data={doctorSpecializations} /></Table.Td> : <Table.Td className="md:text-xl text-lg"> {profile.specialization ?? '-'}</Table.Td>}
+                        </Table.Tr>
+                        <Table.Tr>
+                            <Table.Td className="md:font-semibold md:text-xl text-lg font-medium">Department</Table.Td>
+                            {editMode ? <Table.Td className="md:text-xl text-lg">    <Select {...form.getInputProps("department")} placeholder="Department" data={doctorDepartments} /></Table.Td> : <Table.Td className="md:text-xl text-lg"> {profile.department ?? '-'}</Table.Td>}
+                        </Table.Tr>
+                        <Table.Tr>
+                            <Table.Td className="md:font-semibold md:text-xl text-lg font-medium">Total Experience</Table.Td>
+                            {editMode ? <Table.Td className="md:text-xl text-lg">    <NumberInput {...form.getInputProps("totalExp")} maxLength={2} max={50} clampBehavior="strict" placeholder="Total experience" hideControls /></Table.Td> : <Table.Td className="md:text-xl text-lg"> {profile.totalExp ?? '-'} {profile.totalExp ? 'years' : ''}</Table.Td>}
                         </Table.Tr>
                     </Table.Tbody>
                 </Table>
             </div>
-            <Modal centered opened={opened} onClose={close} title={<span className="text-xl font-medium" >Upload Picture</span>}></Modal>
+            <Modal centered opened={opened} onClose={close} title={<span className="text-xl font-medium">Upload Profile Picture</span>}>
+
+            </Modal>
         </div>
     )
 }
-export default Profile;
+
+export default Profile
