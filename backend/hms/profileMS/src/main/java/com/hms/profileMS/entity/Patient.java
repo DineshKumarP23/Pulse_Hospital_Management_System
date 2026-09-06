@@ -18,18 +18,21 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Column(unique = true)
+    @Column(unique = true, nullable = true)
     private String email;
     private LocalDate dob;
+    private Long profilePictureId;
     private String phone;
     private String address;
-    @Column(unique = true)
+    @Column(unique = true, nullable = true)
     private String aadharNo;
     private BloodGroup bloodGroup;
     private String allergies;
     private String chronicDisease;
 
     public PatientDTO toDTO() {
-        return new PatientDTO(this.id, this.name, this.email, this.dob, this.phone, this.address, this.aadharNo, this.bloodGroup, this.allergies, this.chronicDisease);
+        return new PatientDTO(this.id, this.name, this.email, this.dob, this.profilePictureId, this.phone, this.address,
+                this.aadharNo,
+                this.bloodGroup, this.allergies, this.chronicDisease);
     }
 }

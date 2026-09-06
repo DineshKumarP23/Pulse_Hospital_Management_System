@@ -25,20 +25,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests((requests)->requests.requestMatchers("/public/**").permitAll().anyRequest().authenticated()).csrf(csrf -> csrf.disable());
-//        return http.build();
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().access((authentication, context) -> {
-                            return new AuthorizationDecision(
-                                    "SECRET".equals(
-                                            context.getRequest().getHeader("X-SECRET-KEY")
-                                    )
-                            );
-                        })
-                );
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+
+        http.csrf().disable().authorizeHttpRequests(auth->auth.requestMatchers(request->"SECRET".equals(request.ge  tHeader("X-Secret-Key"))).permitAll()
+                .anyRequest().denyAll());
         return http.build();
     }
 }

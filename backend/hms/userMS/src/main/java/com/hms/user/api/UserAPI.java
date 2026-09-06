@@ -2,6 +2,7 @@ package com.hms.user.api;
 
 import com.hms.user.JWT.JwtUtil;
 import com.hms.user.dto.LoginDTO;
+import com.hms.user.dto.RegistrationCountsDTO;
 import com.hms.user.dto.ResponseDTO;
 import com.hms.user.dto.UserDTO;
 import com.hms.user.exception.HmsException;
@@ -38,20 +39,31 @@ public class UserAPI {
     @PostMapping("/register")
     public ResponseEntity<ResponseDTO> registerUser(@RequestBody @Valid UserDTO userDTO) throws HmsException {
         userService.registerUser(userDTO);
-        return new ResponseEntity<>(new ResponseDTO("Account Created"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseDTO("Account created."), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> postMethodName(@RequestBody LoginDTO loginDTO) throws HmsException {
+    public ResponseEntity<String> loginUser(@RequestBody LoginDTO loginDTO) throws HmsException {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
-        }
-        catch(AuthenticationException e) {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+        } catch (AuthenticationException e) {
             throw new HmsException("INVALID_CREDENTIALS");
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(loginDTO.getEmail());
         final String jwt = jwtUtil.generateToken(userDetails);
         return new ResponseEntity<>(jwt, HttpStatus.OK);
+    }
+
+    @GetMapping("/getProfile/{id}")
+    public ResponseEntity<Long> getProfile(@PathVariable Long id) throws HmsException {
+        return new ResponseEntity<>(userService.getProfile(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getRegistrationCounts")
+    public ResponseEntity<RegistrationCountsDTO> getMonthlyRegistrationCounts() {
+        return new ResponseEntity<>(
+                userService.getMonthlyRegistrationCounts(), HttpStatus.OK);
     }
 
     @GetMapping("/test")
