@@ -14,14 +14,14 @@ import org.springframework.stereotype.Service;
 public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
-    @SneakyThrows
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
             UserDTO dto = userService.getUser(email);
-            return new CustomUserDetails(dto.getId(), dto.getEmail(), dto.getPassword(), dto.getRole(), dto.getName(), dto.getProfileId(), null);
-        }
-        catch(HmsException e) {
+            return new CustomUserDetails(dto.getId(), dto.getEmail(), dto.getEmail(), dto.getPassword(), dto.getRole(),
+                    dto.getName(), dto.getProfileId(), null);
+        } catch (HmsException e) {
             e.printStackTrace();
         }
         return null;

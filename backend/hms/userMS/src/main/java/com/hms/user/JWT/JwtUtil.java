@@ -11,8 +11,9 @@ import java.util.Map;
 
 @Component
 public class JwtUtil {
-    private static final Long JWT_TOKEN_VALIDITY = 5*60*60L;
-    private static final String SECRET = "9ba505ccf397f44cb71170fdd64a5bb2cd0ed795aaac6cf5dc4ea1342c2ab3e2fd7149010e452c662e97f9fc2251a4580defb8cfe18409beab4744c8456a5db7";
+    private static final Long JWT_TOKEN_VALIDITY = 5 * 60 * 60L;
+
+    private static final String SECRET = "80f9762a858c60d6a48a940ffbe1bb2c0af7557c93030805bd10a397d2ae072d77c509aab1bd901f1115e84fb50561d1b61ceb7e99d97f1e785e0b9452e5d874";
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
@@ -23,8 +24,12 @@ public class JwtUtil {
         claims.put("name", user.getName());
         claims.put("profileId", user.getProfileId());
         return doGenerateToken(claims, user.getUsername());
+
     }
+
     public String doGenerateToken(Map<String, Object> claims, String subject) {
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY*1000 )).signWith(SignatureAlgorithm.HS512, SECRET).compact();
+        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .signWith(SignatureAlgorithm.HS512, SECRET).compact();
     }
 }

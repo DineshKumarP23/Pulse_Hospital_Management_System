@@ -13,10 +13,12 @@ public class ApiService {
     private WebClient.Builder webClient;
 
     public Mono<Long> addProfile(UserDTO userDTO) {
-        if(userDTO.getRole().equals(Roles.DOCTOR)) {
-            return webClient.build().post().uri("https://localhost:9100/profile/doctor/add").bodyValue(userDTO).retrieve().bodyToMono(Long.class);
-        } else if(userDTO.getRole().equals(Roles.PATIENT)) {
-            return webClient.build().post().uri("https://localhost:9100/profile/patient/add").bodyValue(userDTO).retrieve().bodyToMono(Long.class);
+        if (userDTO.getRole().equals(Roles.DOCTOR)) {
+            return webClient.build().post().uri("http://localhost:9100/profile/doctor/add").bodyValue(userDTO)
+                    .retrieve().bodyToMono(Long.class);
+        } else if (userDTO.getRole().equals(Roles.PATIENT)) {
+            return webClient.build().post().uri("http://localhost:9100/profile/patient/add").bodyValue(userDTO)
+                    .retrieve().bodyToMono(Long.class);
         }
         return null;
     }
