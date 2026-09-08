@@ -1,5 +1,18 @@
 {
   "dependencies": {
-    "@mantine/dropzone": "^9.5.1"
+    "@mantine/charts": "^9.5.1",
+    "@mantine/dates": "^9.5.1",
+    "@mantine/dropzone": "^9.5.1",
+    "@mantine/notifications": "^9.5.1",
+    "@mantine/spotlight": "^9.5.1",
+    "primeicons": "^8.0.0",
+    "primereact": "^11.1.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "typescript": "^7.0.2"
   }
 }
