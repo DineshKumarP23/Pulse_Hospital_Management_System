@@ -61,19 +61,3 @@ const PatientCard = ({ name, email, dob, phone, id, address, aadharNo, bloodGrou
 }
 
 export default PatientCard
-
-
-
-
-// {
-//     "id": 2,
-//     "name": "Marshal",
-//     "email": "chandra82001@gmail.com",
-//     "dob": "2025-02-06",
-//     "phone": "2453453453",
-//     "address": "India",
-//     "aadharNo": "298723489274",
-//     "bloodGroup": "B_POSITIVE",
-//     "allergies": "[\"Milk\",\"Chicken\",\"cdsc\",\"cvdsfv\"]",
-//     "chronicDisease": "[\"Itching\",\"Random\",\"jxhasjx\"]"
-// }
