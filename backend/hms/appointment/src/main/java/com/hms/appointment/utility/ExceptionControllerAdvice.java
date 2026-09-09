@@ -1,9 +1,10 @@
 package com.hms.appointment.utility;
 
-import com.hms.appointment.exception.HmsException;
-import org.hibernate.cfg.Environment;
-import org.hibernate.exception.ConstraintViolationException;
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
-import java.util.stream.Collectors;
+import com.hms.appointment.exception.HmsException;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class ExceptionControllerAdvice {

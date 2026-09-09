@@ -1,8 +1,8 @@
 package com.hms.profileMS.utility;
 
-import com.hms.user.exception.HmsException;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -12,14 +12,17 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
-import java.util.stream.Collectors;
+import com.hms.profile.exception.HmsException;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
+
     @Autowired
     Environment environment;
-
+    
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorInfo> exceptionHandler(Exception e) {
         ErrorInfo error = new ErrorInfo("Some error occurred.", HttpStatus.INTERNAL_SERVER_ERROR.value(), LocalDateTime.now());
@@ -33,14 +36,15 @@ public class ExceptionControllerAdvice {
     }
     @ExceptionHandler({MethodArgumentNotValidException.class, ConstraintViolationException.class})
     public ResponseEntity<ErrorInfo> handleValidationExceptions(Exception e) {
-        String errorMsg;
-        if(e instanceof MethodArgumentNotValidException manv) {
-            errorMsg = manv.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(","));
-        } else {
+       String errorMsg;
+         if(e instanceof MethodArgumentNotValidException manv) {
+              errorMsg = manv.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(","));
+         } else {
             ConstraintViolationException cve = (ConstraintViolationException) e;
-            errorMsg = cve.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(","));
-        }
+              errorMsg = cve.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(","));
+         }
         ErrorInfo error = new ErrorInfo(errorMsg, HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+
     }
 }

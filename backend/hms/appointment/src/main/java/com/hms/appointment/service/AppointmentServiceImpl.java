@@ -1,20 +1,28 @@
 package com.hms.appointment.service;
 
-import com.hms.appointment.clients.ProfileClient;
-import com.hms.appointment.dto.*;
-import com.hms.appointment.entity.Appointment;
-import com.hms.appointment.exception.HmsException;
-import com.hms.appointment.repository.AppointmentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hms.appointment.clients.ProfileClient;
+import com.hms.appointment.dto.AppointmentDTO;
+import com.hms.appointment.dto.AppointmentDetails;
+import com.hms.appointment.dto.DoctorDTO;
+import com.hms.appointment.dto.MonthlyVisitDTO;
+import com.hms.appointment.dto.PatientDTO;
+import com.hms.appointment.dto.ReasonCountDTO;
+import com.hms.appointment.dto.Status;
+import com.hms.appointment.entity.Appointment;
+import com.hms.appointment.exception.HmsException;
+import com.hms.appointment.repository.AppointmentRepository;
+
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
+
     @Autowired
     private AppointmentRepository appointmentRepository;
 
@@ -145,4 +153,5 @@ public class AppointmentServiceImpl implements AppointmentService {
                     appointment.getStatus(), appointment.getReason(), appointment.getNotes());
         }).toList();
     }
+
 }

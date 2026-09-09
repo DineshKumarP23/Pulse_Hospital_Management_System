@@ -1,11 +1,12 @@
 package com.hms.appointment.repository;
 
-import com.hms.appointment.entity.Prescription;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-import java.util.Optional;
+import com.hms.appointment.entity.Prescription;
 
 public interface PrescriptionRepository extends CrudRepository<Prescription, Long> {
 

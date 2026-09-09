@@ -2,6 +2,7 @@ package com.hms.appointment.dto;
 
 import com.hms.appointment.entity.Medicine;
 import com.hms.appointment.entity.Prescription;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

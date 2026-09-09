@@ -1,13 +1,18 @@
 package com.hms.profileMS.entity;
 
-import com.hms.profileMS.dto.BloodGroup;
-import com.hms.profileMS.dto.PatientDTO;
-import jakarta.persistence.*;
+import java.time.LocalDate;
+
+import com.hms.profile.dto.BloodGroup;
+import com.hms.profile.dto.PatientDTO;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -35,4 +40,5 @@ public class Patient {
                 this.aadharNo,
                 this.bloodGroup, this.allergies, this.chronicDisease);
     }
+
 }

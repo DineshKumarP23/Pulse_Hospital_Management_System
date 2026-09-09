@@ -1,7 +1,10 @@
 package com.hms.profileMS.service;
 
-import com.hms.profileMS.dto.DoctorDTO;
-import com.hms.profileMS.exception.HmsException;
+import java.util.List;
+
+import com.hms.profile.dto.DoctorDTO;
+import com.hms.profile.dto.DoctorDropdown;
+import com.hms.profile.exception.HmsException;
 
 public interface DoctorService {
     public Long addDoctor(DoctorDTO doctorDTO) throws HmsException;
