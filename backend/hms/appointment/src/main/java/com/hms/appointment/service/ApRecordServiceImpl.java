@@ -1,5 +1,13 @@
 package com.hms.appointment.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
 import com.hms.appointment.clients.ProfileClient;
 import com.hms.appointment.dto.ApRecordDTO;
 import com.hms.appointment.dto.DoctorName;
@@ -8,15 +16,9 @@ import com.hms.appointment.entity.ApRecord;
 import com.hms.appointment.exception.HmsException;
 import com.hms.appointment.repository.ApRecordRepository;
 import com.hms.appointment.utility.StringListConverter;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

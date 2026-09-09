@@ -1,11 +1,12 @@
 package com.hms.appointment.repository;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
 import com.hms.appointment.dto.AppointmentDetails;
 import com.hms.appointment.dto.MonthlyVisitDTO;
 import com.hms.appointment.dto.ReasonCountDTO;
 import com.hms.appointment.entity.Appointment;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

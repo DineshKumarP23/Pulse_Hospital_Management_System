@@ -1,14 +1,19 @@
 package com.hms.profileMS.service;
 
-import com.hms.profileMS.dto.PatientDTO;
-import com.hms.profileMS.entity.Patient;
-import com.hms.profileMS.exception.HmsException;
-import com.hms.profileMS.repository.PatientRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hms.profile.dto.DoctorDropdown;
+import com.hms.profile.dto.PatientDTO;
+import com.hms.profile.entity.Patient;
+import com.hms.profile.exception.HmsException;
+import com.hms.profile.repository.PatientRepository;
+
 @Service
 public class PatientServiceImpl implements PatientService {
+
     @Autowired
     private PatientRepository patientRepository;
 
@@ -52,4 +57,5 @@ public class PatientServiceImpl implements PatientService {
     public List<PatientDTO> getAllPatients() throws HmsException {
         return ((List<Patient>) patientRepository.findAll()).stream().map(patient -> patient.toDTO()).toList();
     }
+
 }

@@ -1,15 +1,16 @@
 package com.hms.appointment.dto;
 
-import com.hms.appointment.entity.ApRecord;
-import com.hms.appointment.entity.Appointment;
-import com.hms.appointment.utility.StringListConverter;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.hms.appointment.entity.ApRecord;
+import com.hms.appointment.entity.Appointment;
+import com.hms.appointment.utility.StringListConverter;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor

@@ -1,9 +1,13 @@
 package com.hms.profileMS.repository;
 
-import com.hms.profileMS.entity.Doctor;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.Optional;
+import com.hms.profile.dto.DoctorDropdown;
+import com.hms.profile.entity.Doctor;
 
 public interface DoctorRepository extends CrudRepository<Doctor, Long> {
     Optional<Doctor> findByEmail(String email);

@@ -1,12 +1,12 @@
 package com.hms.appointment.service;
 
+import java.util.List;
+
 import com.hms.appointment.dto.AppointmentDTO;
 import com.hms.appointment.dto.AppointmentDetails;
 import com.hms.appointment.dto.MonthlyVisitDTO;
 import com.hms.appointment.dto.ReasonCountDTO;
 import com.hms.appointment.exception.HmsException;
-
-import java.util.List;
 
 public interface AppointmentService {
     Long scheduleAppointment(AppointmentDTO appointmentDTO) throws HmsException;

@@ -1,8 +1,8 @@
 package com.hms.appointment.service;
 
-import com.hms.appointment.dto.MedicineDTO;
-
 import java.util.List;
+
+import com.hms.appointment.dto.MedicineDTO;
 
 public interface MedicineService {
     public Long saveMedicine(MedicineDTO request);

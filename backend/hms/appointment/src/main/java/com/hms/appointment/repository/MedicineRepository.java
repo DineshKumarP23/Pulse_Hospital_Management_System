@@ -1,9 +1,10 @@
 package com.hms.appointment.repository;
 
-import com.hms.appointment.entity.Medicine;
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
+import com.hms.appointment.entity.Medicine;
 
 public interface MedicineRepository extends CrudRepository<Medicine, Long> {
 

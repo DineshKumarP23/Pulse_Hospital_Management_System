@@ -1,5 +1,5 @@
 package com.hms.appointment.dto;
 
-public enum Status implements jakarta.transaction.Status {
+public enum Status {
     SCHEDULED, CANCELLED, COMPLETED
 }

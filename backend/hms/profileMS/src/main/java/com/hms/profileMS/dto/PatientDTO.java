@@ -1,11 +1,12 @@
 package com.hms.profileMS.dto;
 
-import com.hms.profileMS.entity.Patient;
+import java.time.LocalDate;
+
+import com.hms.profile.entity.Patient;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor

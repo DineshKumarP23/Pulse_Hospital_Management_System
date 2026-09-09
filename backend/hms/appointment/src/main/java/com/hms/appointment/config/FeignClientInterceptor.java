@@ -1,8 +1,9 @@
 package com.hms.appointment.config;
 
+import org.springframework.context.annotation.Configuration;
+
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FeignClientInterceptor implements RequestInterceptor {
@@ -11,4 +12,5 @@ public class FeignClientInterceptor implements RequestInterceptor {
     public void apply(RequestTemplate template) {
         template.header("X-Secret-Key", "SECRET");
     }
+
 }

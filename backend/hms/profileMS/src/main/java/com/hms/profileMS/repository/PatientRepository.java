@@ -1,12 +1,14 @@
 package com.hms.profileMS.repository;
 
-import com.hms.profileMS.entity.Patient;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
+import java.util.List;
 import java.util.Optional;
 
-@Repository
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import com.hms.profile.dto.DoctorDropdown;
+import com.hms.profile.entity.Patient;
+
 public interface PatientRepository extends CrudRepository<Patient, Long> {
     Optional<Patient> findByEmail(String email);
 
@@ -14,4 +16,5 @@ public interface PatientRepository extends CrudRepository<Patient, Long> {
 
     @Query("SELECT d.id AS id, d.name AS name FROM Patient d WHERE d.id in ?1")
     List<DoctorDropdown> findAllPatientDropdownsByIds(List<Long> ids);
+
 }
